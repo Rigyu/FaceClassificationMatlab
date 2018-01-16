@@ -31,7 +31,7 @@ figure;
 subplot(1,2,1);imshow(read(training(person),1));title('Input Face');
 subplot(1,2,2);plot(visualization);title('HoG Feature');
 
-export_fig HoGFeatures.png
+%%export_fig HoGFeatures.png used only on local to make figs
 
 %% Extract HOG Features for training set
 trainingFeatures = zeros(size(training,2)*training(1).Count,size(hogFeature,2));
