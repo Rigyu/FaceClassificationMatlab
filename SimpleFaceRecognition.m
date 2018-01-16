@@ -23,7 +23,7 @@ diff = zeros(1,9);
 %% Split Database into Training & Test Sets
 [training,test] = partition(faceDatabase,[0.8 0.2]);
 
-%% Extract and display Histogram of Oriented Gradient Features for single face 
+%% Extract and display Histogram of Oriented Gradient Features for single face
 person = 10;
 [hogFeature, visualization]= ...
     extractHOGFeatures(read(training(person),1));
@@ -33,26 +33,26 @@ subplot(1,2,2);plot(visualization);title('HoG Feature');
 
 export_fig HoGFeatures.png
 
-%% Extract HOG Features for training set 
-trainingFeatures = zeros(size(training,2)*training(1).Count,34596);
+%% Extract HOG Features for training set
+trainingFeatures = zeros(size(training,2)*training(1).Count,size(hogFeature,2));
 featureCount = 1;
 for i=1:size(training,2)
     for j = 1:training(i).Count
         trainingFeatures(featureCount,:) = extractHOGFeatures(read(training(i),j));
-        trainingLabel{featureCount} = training(i).Description;    
+        trainingLabel{featureCount} = training(i).Description;
         featureCount = featureCount + 1;
     end
     personIndex{i} = training(i).Description;
 end
 
-%% Create 40 class classifier using fitcecoc 
+%% Create 40 class classifier using fitcecoc
 faceClassifier = fitcecoc(trainingFeatures,trainingLabel);
-%% Test Images from Test Set 
+%% Test Images from Test Set
 person = 1;
 queryImage = read(test(person),1);
 queryFeatures = extractHOGFeatures(queryImage);
 personLabel = predict(faceClassifier,queryFeatures);
-% Map back to training set to find identity 
+% Map back to training set to find identity
 booleanIndex = strcmp(personLabel, personIndex);
 integerIndex = find(booleanIndex);
 subplot(1,2,1);imshow(queryImage);title('Query Face');
@@ -70,10 +70,10 @@ for person=1:12
         % Map back to training set to find identity
         booleanIndex = strcmp(personLabel, personIndex);
         integerIndex = find(booleanIndex);
-        
+
         subplot(2,2,figureNum);imshow(imresize(queryImage,3));title('Query Face');
         subplot(2,2,figureNum+1);imshow(imresize(read(training(integerIndex),1),3));title('Matched Class');
-       
+
         figureNum = figureNum+2;
         %%export_fig(sprintf('Resultados/plot%d.png', person)); used only
         %%local to save images for report.
@@ -81,6 +81,3 @@ for person=1:12
     figure;
     figureNum = 1;
 end
-
-
-
