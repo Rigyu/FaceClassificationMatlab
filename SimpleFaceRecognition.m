@@ -24,14 +24,14 @@ diff = zeros(1,9);
 [training,test] = partition(faceDatabase,[0.8 0.2]);
 
 %% Extract and display Histogram of Oriented Gradient Features for single face
-person = 10;
+person = 9;
 [hogFeature, visualization]= ...
     extractHOGFeatures(read(training(person),1));
 figure;
 subplot(1,2,1);imshow(read(training(person),1));title('Input Face');
 subplot(1,2,2);plot(visualization);title('HoG Feature');
 
-%%export_fig HoGFeatures.png used only on local to make figs
+%%export_fig HoGFeatures3.png used only on local to make figs
 
 %% Extract HOG Features for training set
 trainingFeatures = zeros(size(training,2)*training(1).Count,size(hogFeature,2));
